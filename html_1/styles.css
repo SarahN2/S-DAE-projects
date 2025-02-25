@@ -1,122 +1,89 @@
-/* General Page Styles */
+/* General Styling for the Login Page */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif; /* Cute and modern font */
+    background-color: #f8f8f8;
     margin: 0;
     padding: 0;
-    background-color: #FCEAFF;
-    color: #333;
-    text-align: center;
+    transition: background-color 0.5s ease;
 }
 
-/* Header */
-header {
-    background: linear-gradient(135deg, #C8B6FF, #E7C6FF);
-    color: white;
-    padding: 1.5rem 0;
-    text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 10px 0;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #FFC8DD;
-}
-
-/* Introduction Section */
-.intro {
-    margin-top: 30px;
-    font-size: 1.2rem;
-}
-
-.highlight {
-    color: #C77DFF;
-    font-weight: bold;
-}
-
-/* Image Container */
-.image-container {
-    margin: 20px 0;
-}
-
-.image-container img {
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Feature Links */
-.feature-links a {
-    display: inline-block;
-    margin: 15px;
-    padding: 12px 20px;
-    background-color: #C8B6FF;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.feature-links a:hover {
-    background: #9D7CE7;
-    transform: scale(1.05);
-}
-
-/* Trope List */
-.trope-list {
-    margin: 40px auto;
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #B39DDB; /* Lavender purple background */
     padding: 20px;
-    background-color: white;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-.trope-list h2 {
-    color: #6A0572;
-}
-
-.trope-list ul {
-    list-style: none;
-    padding: 0;
-}
-
-.trope-list li {
-    padding: 8px 0;
-    font-size: 1.1rem;
-}
-
-/* Footer */
-footer {
-    background-color: #E7C6FF;
+h2 {
     color: white;
-    padding: 1.2rem;
-    margin-top: 30px;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-family: 'Comic Sans MS', cursive, sans-serif; /* Playful font */
 }
 
-footer a {
+#login input {
+    padding: 12px;
+    margin: 10px;
+    font-size: 16px;
+    width: 250px;
+    border-radius: 15px;
+    border: 2px solid #e1bee7; /* Lighter purple border */
+    background-color: #fff;
+    outline: none;
+    transition: 0.3s ease;
+}
+
+#login input:focus {
+    border-color: #7e57c2; /* Slightly darker purple on focus */
+    box-shadow: 0 0 5px rgba(126, 87, 194, 0.5); /* Soft lavender glow */
+}
+
+#login button {
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 25px; /* Rounded button */
+    background-color: #7e57c2; /* Lavender purple button */
     color: white;
-    text-decoration: none;
-    font-weight: bold;
+    border: none;
+    transition: 0.3s ease;
 }
 
-footer a:hover {
-    color: #FFC8DD;
+#login button:hover {
+    background-color: #5e35b1; /* Darker lavender purple on hover */
+    transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+#login p {
+    color: white;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+/* Styling for the rest of the page to keep it aligned */
+main {
+    display: none;
+}
+
+/* Responsive Design: Mobile-friendly */
+@media (max-width: 600px) {
+    .login-section {
+        padding: 15px;
+        width: 100%;
+        border-radius: 10px;
+    }
+    h2 {
+        font-size: 2rem;
+    }
+    #login input {
+        width: 90%;
+    }
+    #login button {
+        width: 90%;
+    }
 }

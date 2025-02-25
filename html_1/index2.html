@@ -3,65 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tell Tales - Book Tropes Generator</title>
+    <title>StudyPro - Your Study Companion</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Login Section -->
+    <section id="login" class="login-section">
+        <h2>Welcome to StudyPro</h2>
+        <input type="text" id="username" placeholder="Enter username" />
+        <input type="password" id="password" placeholder="Enter password" />
+        <button id="loginButton">Login</button>
+        <p id="loginError" style="color: red;"></p>
+    </section>
 
-    <!-- HEADER SECTION -->
-    <header>
-        <h1>📖 Tell Tales - Book Tropes Generator</h1>
-        <nav>
-            <ul>
-                <li><a href="tropes.html" title="Go to Tropes Generator">Tropes Generator</a></li>
-                <li><a href="project-storage.html" title="Store Your Writing Project">Project Storage</a></li>
-                <li><a href="name-generator.html" title="Generate Character Names">Name Generator</a></li>
-                <li><a href="author-recommendations.html" title="Find New Authors">Author Recommendations</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Main App Content (hidden initially) -->
+    <main id="main" style="display: none;">
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Flashcards</a></li>
+                    <li><a href="#">Notes</a></li>
+                    <li><button id="modeToggle">Toggle Dark Mode</button></li>
+                    <li><button id="logoutButton" style="display: none;">Logout</button></li>
+                </ul>
+            </nav>
+        </header>
 
-    <!-- MAIN CONTENT -->
-    <main>
-        <section class="intro">
-            <h2>Welcome to <span class="highlight">Tell Tales!</span></h2>
-            <p>📚 Generate book tropes, store projects, and get inspired for your next best-seller!</p>
+        <section id="flashcards">
+            <h2>Flashcards</h2>
+            <input type="text" id="search" placeholder="Search flashcards">
+            <button id="createFlashcard">Create Flashcard</button>
+            <div id="flashcardArea"></div>
         </section>
 
-        <!-- IMAGE SECTION -->
-        <section class="image-container">
-            <img src="1.png" alt="A stack of books with a magical glow" width="400" height="300">
+        <section id="notes">
+            <h2>Notes</h2>
+            <textarea id="noteInput" placeholder="Write your notes here..."></textarea>
+            <select id="noteCategory">
+                <option value="general">General</option>
+                <option value="math">Math</option>
+                <option value="science">Science</option>
+            </select>
+            <button id="saveNote">Save Note</button>
+            <div id="savedNotes"></div>
         </section>
 
-        <!-- FEATURE LINKS -->
-        <div class="feature-links">
-            <a href="tropes.html">✨ Generate Tropes</a>
-            <a href="project-storage.html">📁 Store Your Project</a>
-            <a href="name-generator.html">📝 Generate Names</a>
-            <a href="author-recommendations.html">🔍 Find Similar Authors</a>
-        </div>
-
-        <!-- TROPE LIST -->
-        <section class="trope-list">
-            <h2>Popular Tropes</h2>
-            <ul>
-                <li>Enemies to Lovers</li>
-                <li>Fake Dating</li>
-                <li>Slow Burn Romance</li>
-                <li>Forbidden Love</li>
-                <li>The Chosen One</li>
-                <li>Secret Identity</li>
-                <li>Amnesia Storyline</li>
-                <li>Rags to Riches</li>
-            </ul>
-        </section>
+        <footer>
+            <p>StudyPro - Your Study Companion</p>
+        </footer>
     </main>
 
-    <!-- FOOTER SECTION -->
-    <footer>
-        <p>&copy; 2025 Tell Tales. All rights reserved.</p>
-        <a href="privacy-policy.html" title="Read our privacy policy">Privacy Policy</a>
-    </footer>
-
+    <script src="script.js"></script>
 </body>
 </html>
