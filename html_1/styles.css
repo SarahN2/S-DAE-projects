@@ -1,18 +1,18 @@
 /* General Styling for the Login Page */
 body {
-    font-family: 'Poppins', sans-serif; /* Cute and modern font */
+    font-family: 'Poppins', sans-serif;
     background-color: #f8f8f8;
     margin: 0;
     padding: 0;
     transition: background-color 0.5s ease;
 }
 
-.login-section {
+.login-section, .signup-section {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #B39DDB; /* Lavender purple background */
+    background-color: #B39DDB;
     padding: 20px;
     flex-direction: column;
     border-radius: 20px;
@@ -23,46 +23,57 @@ h2 {
     color: white;
     font-size: 2.5rem;
     margin-bottom: 20px;
-    font-family: 'Comic Sans MS', cursive, sans-serif; /* Playful font */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-#login input {
+#login input, #signup input {
     padding: 12px;
     margin: 10px;
     font-size: 16px;
     width: 250px;
     border-radius: 15px;
-    border: 2px solid #e1bee7; /* Lighter purple border */
+    border: 2px solid #e1bee7;
     background-color: #fff;
     outline: none;
     transition: 0.3s ease;
 }
 
-#login input:focus {
-    border-color: #7e57c2; /* Slightly darker purple on focus */
-    box-shadow: 0 0 5px rgba(126, 87, 194, 0.5); /* Soft lavender glow */
+#login input:focus, #signup input:focus {
+    border-color: #7e57c2;
+    box-shadow: 0 0 5px rgba(126, 87, 194, 0.5);
 }
 
-#login button {
+#login button, #signup button {
     padding: 12px 25px;
     font-size: 16px;
     cursor: pointer;
-    border-radius: 25px; /* Rounded button */
-    background-color: #7e57c2; /* Lavender purple button */
+    border-radius: 25px;
+    background-color: #7e57c2;
     color: white;
     border: none;
     transition: 0.3s ease;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
-#login button:hover {
-    background-color: #5e35b1; /* Darker lavender purple on hover */
-    transform: scale(1.05); /* Slight scaling effect on hover */
+#login button:hover, #signup button:hover {
+    background-color: #5e35b1;
+    transform: scale(1.05);
 }
 
-#login p {
+#login p, #signup p {
     color: white;
     font-size: 14px;
     margin-top: 15px;
+}
+
+/* Styling for the Sign-Up Section */
+.signup-section {
+    display: none; /* Hidden by default */
+}
+
+#signupError {
+    color: red;
+    font-size: 14px;
 }
 
 /* Styling for the rest of the page to keep it aligned */
@@ -70,9 +81,9 @@ main {
     display: none;
 }
 
-/* Responsive Design: Mobile-friendly */
+/* Responsive Design */
 @media (max-width: 600px) {
-    .login-section {
+    .login-section, .signup-section {
         padding: 15px;
         width: 100%;
         border-radius: 10px;
@@ -80,10 +91,10 @@ main {
     h2 {
         font-size: 2rem;
     }
-    #login input {
+    #login input, #signup input {
         width: 90%;
     }
-    #login button {
+    #login button, #signup button {
         width: 90%;
     }
 }
