@@ -1,70 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyPro - Your Study Companion</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Mate - Note Taking & Flashcards</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-    <!-- Login Section -->
-    <section id="login" class="login-section">
-        <h2>Welcome to StudyPro</h2>
-        <input type="text" id="username" placeholder="Enter username" />
-        <input type="password" id="password" placeholder="Enter password" />
-        <button id="loginButton">Login</button>
-        <p id="loginError" style="color: red;"></p>
-        <button id="signupButton" style="margin-top: 10px;">Sign Up</button>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#flashcards">Flashcards</a></li>
+        <li><a href="#documents">Documents</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Dark/Light Mode Toggle -->
+    <button id="mode-toggle">Toggle Dark/Light Mode</button>
+
+    <!-- Flashcards Section -->
+    <section id="flashcards">
+      <h2>Flashcards</h2>
+      <button id="create-deck">Create New Deck</button>
+      <div id="decks-container"></div>
     </section>
 
-    <!-- Sign-Up Section (hidden initially) -->
-    <section id="signup" class="signup-section" style="display: none;">
-        <h2>Create an Account</h2>
-        <input type="text" id="newUsername" placeholder="Enter username" />
-        <input type="password" id="newPassword" placeholder="Enter password" />
-        <button id="submitSignup">Sign Up</button>
-        <p id="signupError" style="color: red;"></p>
-        <button id="backToLogin" style="margin-top: 10px;">Back to Login</button>
+    <!-- Documents Section -->
+    <section id="documents">
+      <h2>Your Notes</h2>
+      <button id="create-document">Create New Document</button>
+      <div id="documents-container"></div>
     </section>
 
-    <!-- Main App Content (hidden initially) -->
-    <main id="main" style="display: none;">
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Flashcards</a></li>
-                    <li><a href="#">Notes</a></li>
-                    <li><button id="modeToggle">Toggle Dark Mode</button></li>
-                    <li><button id="logoutButton" style="display: none;">Logout</button></li>
-                </ul>
-            </nav>
-        </header>
+    <!-- Quiz Section -->
+    <section id="quiz">
+      <h2>Quiz Yourself</h2>
+      <button id="start-quiz">Start Quiz</button>
+      <div id="quiz-container"></div>
+    </section>
+  </main>
 
-        <section id="flashcards">
-            <h2>Flashcards</h2>
-            <input type="text" id="search" placeholder="Search flashcards">
-            <button id="createFlashcard">Create Flashcard</button>
-            <div id="flashcardArea"></div>
-        </section>
-
-        <section id="notes">
-            <h2>Notes</h2>
-            <textarea id="noteInput" placeholder="Write your notes here..."></textarea>
-            <select id="noteCategory">
-                <option value="general">General</option>
-                <option value="math">Math</option>
-                <option value="science">Science</option>
-            </select>
-            <button id="saveNote">Save Note</button>
-            <div id="savedNotes"></div>
-        </section>
-
-        <footer>
-            <p>StudyPro - Your Study Companion</p>
-        </footer>
-    </main>
-
-    <script src="script.js"></script>
+  <footer>
+    <p>&copy; 2025 Study Mate. All Rights Reserved.</p>
+  </footer>
 </body>
 </html>

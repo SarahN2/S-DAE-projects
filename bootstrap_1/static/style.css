@@ -1,0 +1,80 @@
+/* Global Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+  
+  /* CSS Variables for light and dark mode */
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --accent-color: #007bff;
+    --padding-default: 1rem;
+    --margin-default: 1rem;
+    --sizing-default: 100%;
+  }
+  
+  [data-mode="dark"],
+  [data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --accent-color: #bb86fc;
+  }
+  
+  /* Type selectors */
+  header, nav, main, footer, section, article, form {
+    padding: var(--padding-default);
+    margin: var(--margin-default);
+  }
+  
+  /* Header Styles */
+  header {
+    background-color: var(--accent-color);
+    color: #fff;
+    text-align: center;
+  }
+  
+  /* Navigation Styles */
+  nav {
+    background-color: #f8f9fa;
+  }
+  
+  /* Main Content Styles */
+  main {
+    min-height: 60vh;
+  }
+  
+  /* Footer Styles */
+  footer {
+    background-color: #333;
+  }
+  
+  /* Additional Elements */
+  .jumbotron {
+    padding: 2rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+  }
+  
+  /* Flashcard Styles */
+  #flashcards-display .flashcard {
+    border: 1px solid var(--accent-color);
+    padding: var(--padding-default);
+    margin-bottom: var(--margin-default);
+    border-radius: .25rem;
+  }
+  
+  /* Dark/Light mode button */
+  #toggle-mode {
+    margin-top: 1rem;
+  }
+  
+  /* Responsive image sizing */
+  img.img-fluid {
+    width: 100%;
+    height: auto;
+  }
+  

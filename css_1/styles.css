@@ -1,122 +1,91 @@
-/* General Page Styles */
-body {
-    font-family: 'Poppins', sans-serif;
+/* Dark Mode Styles */
+:root {
+    --background-dark: #121212;
+    --background-light: #f5f5f5;
+    --text-dark: #ffffff;
+    --text-light: #333333;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-light);
+    color: var(--text-light);
     margin: 0;
     padding: 0;
-    background-color: #FCEAFF;
-    color: #333;
-    text-align: center;
-}
-
-/* Header */
-header {
-    background: linear-gradient(135deg, #C8B6FF, #E7C6FF);
+  }
+  
+  header {
+    background-color: #333;
     color: white;
-    padding: 1.5rem 0;
+    padding: 10px;
     text-align: center;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-nav ul {
-    list-style: none;
+  }
+  
+  nav ul {
+    list-style-type: none;
     padding: 0;
-    margin: 10px 0;
-}
-
-nav ul li {
+  }
+  
+  nav ul li {
     display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #FFC8DD;
-}
-
-/* Introduction Section */
-.intro {
-    margin-top: 30px;
-    font-size: 1.2rem;
-}
-
-.highlight {
-    color: #C77DFF;
-    font-weight: bold;
-}
-
-/* Image Container */
-.image-container {
-    margin: 20px 0;
-}
-
-.image-container img {
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Feature Links */
-.feature-links a {
-    display: inline-block;
-    margin: 15px;
-    padding: 12px 20px;
-    background-color: #C8B6FF;
+    margin: 0 10px;
+  }
+  
+  nav ul li a {
     color: white;
     text-decoration: none;
-    border-radius: 8px;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.feature-links a:hover {
-    background: #9D7CE7;
-    transform: scale(1.05);
-}
-
-/* Trope List */
-.trope-list {
-    margin: 40px auto;
+  }
+  
+  button {
+    padding: 10px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Dark Mode */
+  body.dark-mode {
+    background-color: var(--background-dark);
+    color: var(--text-dark);
+  }
+  
+  button#mode-toggle {
+    background-color: #333;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Styling */
+  input[type="email"], input[type="password"] {
+    padding: 10px;
+    margin: 5px;
+    width: 100%;
+  }
+  
+  footer {
+    text-align: center;
     padding: 20px;
-    background-color: white;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.trope-list h2 {
-    color: #6A0572;
-}
-
-.trope-list ul {
-    list-style: none;
-    padding: 0;
-}
-
-.trope-list li {
-    padding: 8px 0;
-    font-size: 1.1rem;
-}
-
-/* Footer */
-footer {
-    background-color: #E7C6FF;
+    background-color: #333;
     color: white;
-    padding: 1.2rem;
-    margin-top: 30px;
-}
-
-footer a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-footer a:hover {
-    color: #FFC8DD;
-}
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+  }
+  
+  #decks-container, #documents-container {
+    margin-top: 20px;
+  }
+  
+  #decks-container div, #documents-container div {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+  }
+  

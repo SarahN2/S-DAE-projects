@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Study Notes - Flashcards</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="flashcards-header" class="py-3" data-page="flashcards">
+    <div class="container">
+      <h1>Flashcards</h1>
+      <button id="new-flashcard" class="btn btn-success">Create New Flashcard</button>
+    </div>
+  </header>
+
+  <nav id="flashcards-nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index.html">Study Notes</a>
+  </nav>
+
+  <main id="flashcards-main" class="container my-4">
+    <!-- Flashcard creation/edit form -->
+    <div id="flashcard-form-container" class="mb-4" data-form="flashcard">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <form id="flashcard-form">
+            <div class="form-group">
+              <label for="card-title">Title:</label>
+              <input type="text" id="card-title" name="card-title" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="card-content">Content:</label>
+              <textarea id="card-content" name="card-content" class="form-control" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="font-choice">Choose Font:</label>
+              <select id="font-choice" name="font-choice" class="form-control">
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Times New Roman">Times New Roman</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="save-flashcard">Save Flashcard</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Flashcards display area -->
+    <div class="row">
+      <div id="flashcards-display" data-display="flashcards">
+        <!-- Flashcards will be dynamically injected here via JavaScript -->
+      </div>
+    </div>
+  </main>
+
+  <footer id="flashcards-footer" class="bg-dark text-light text-center py-3">
+    <p>&copy; 2025 Study Notes. All Rights Reserved.</p>
+  </footer>
+
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
+  <!-- Bootstrap JS (dependencies) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

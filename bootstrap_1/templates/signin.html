@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Study Notes - Sign In</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="signin-header" class="py-3" data-page="signin">
+    <div class="container">
+      <h1>Sign In</h1>
+    </div>
+  </header>
+
+  <nav id="signin-nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index.html">Study Notes</a>
+  </nav>
+
+  <main id="signin-main" class="container my-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form id="signin-form" action="/signin" method="POST" data-form="auth">
+          <div class="form-group">
+            <label for="username" title="Your Username">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Enter username" required>
+          </div>
+          <div class="form-group">
+            <label for="password" title="Your Password">Password:</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="signin-button">Sign In</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer id="signin-footer" class="bg-dark text-light text-center py-3">
+    <p>&copy; 2025 Study Notes. All Rights Reserved.</p>
+  </footer>
+
+  <!-- External JavaScript -->
+  <script src="script.js"></script>
+  <!-- Bootstrap JS (dependencies) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
