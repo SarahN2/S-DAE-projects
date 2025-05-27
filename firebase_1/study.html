@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study - StudyLab</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for interactive elements */
+        .flashcard-container {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+        
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .flashcard-front {
+            background-color: #f8f8f8;
+            border: 2px solid #6c4f98;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .flashcard-back {
+            background-color: #6c4f98;
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .card-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        #flashcard-form, #note-form, #quiz-form {
+            display: none;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .deck-list, .note-list, .quiz-list {
+            margin-top: 20px;
+        }
+        
+        .deck-item, .note-item, .quiz-item {
+            background-color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .deck-item:hover, .note-item:hover, .quiz-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .deck-title, .note-title, .quiz-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .deck-info, .note-info, .quiz-info {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        #study-area {
+            display: none;
+        }
+        
+        #note-editor {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+        }
+        
+        .quiz-question {
+            margin-bottom: 30px;
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .answer-option {
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .answer-option:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .answer-option.selected {
+            background-color: #6c4f98;
+            color: white;
+        }
+        
+        body.dark-mode .flashcard-front {
+            background-color: #444;
+            border-color: #4a3b77;
+            color: white;
+        }
+        
+        body.dark-mode .flashcard-back {
+            background-color: #4a3b77;
+        }
+        
+        body.dark-mode .deck-item, body.dark-mode .note-item, body.dark-mode .quiz-item {
+            background-color: #444;
+            color: white;
+        }
+        
+        body.dark-mode .deck-info, body.dark-mode .note-info, body.dark-mode .quiz-info {
+            color: #ccc;
+        }
+        
+        body.dark-mode #note-editor {
+            background-color: #444;
+            color: white;
+            border-color: #555;
+        }
+        
+        body.dark-mode .answer-option {
+            background-color: #444;
+            color: white;
+            border-color: #555;
+        }
+        
+        body.dark-mode .answer-option:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>StudyLab</h1>
+            <nav>
+                <ul>
+                    <li><a href="#flashcards">Flashcards</a></li>
+                    <li><a href="#notes">Notes</a></li>
+                    <li><a href="#quizzes">Quizzes</a></li>
+                    <li><button onclick="toggleTheme()">Toggle Theme</button></li>
+                    <li><a href="index.html" id="logoutBtn">Log Out</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <!-- Flashcards Section -->
+            <section id="flashcards" class="card">
+                <h2>Flashcards</h2>
+                <button id="create-flashcard-btn" onclick="showFlashcardForm()">Create Flashcard Deck</button>
+                
+                <!-- Flashcard Form -->
+                <div id="flashcard-form">
+                    <div class="form-group">
+                        <label for="deck-name">Deck Name:</label>
+                        <input type="text" id="deck-name" placeholder="Enter deck name">
+                    </div>
+                    <div id="flashcard-items">
+                        <div class="form-group card-item">
+                            <label>Flashcard 1:</label>
+                            <input type="text" class="card-question" placeholder="Question">
+                            <input type="text" class="card-answer" placeholder="Answer">
+                        </div>
+                    </div>
+                    <button onclick="addFlashcardInput()">Add Another Card</button>
+                    <div class="form-buttons">
+                        <button onclick="cancelFlashcardForm()">Cancel</button>
+                        <button onclick="saveFlashcardDeck()">Save Deck</button>
+                    </div>
+                </div>
+                
+                <!-- Study Area -->
+                <div id="study-area">
+                    <h3 id="current-deck-name"></h3>
+                    <div class="flashcard-container">
+                        <div class="flashcard" onclick="flipCard()">
+                            <div class="flashcard-front">
+                                <div id="question-text">Question appears here</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div id="answer-text">Answer appears here</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-controls">
+                        <button onclick="previousCard()">Previous</button>
+                        <span id="card-counter">Card 1 of 1</span>
+                        <button onclick="nextCard()">Next</button>
+                    </div>
+                    <button onclick="closeStudyArea()">Back to Decks</button>
+                </div>
+                
+                <!-- Deck List -->
+                <div id="deck-list" class="deck-list">
+                    <h3>Your Flashcard Decks</h3>
+                    <div id="decks">
+                        <!-- Sample pre-loaded deck -->
+                        <div class="deck-item" onclick="openDeck('General Knowledge')">
+                            <div class="deck-title">General Knowledge</div>
+                            <div class="deck-info">4 cards • Created Mar 12, 2025</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Notes Section -->
+            <section id="notes" class="card">
+                <h2>Notes</h2>
+                <button id="create-note-btn" onclick="showNoteForm()">Create Note</button>
+                
+                <!-- Note Form -->
+                <div id="note-form">
+                    <div class="form-group">
+                        <label for="note-title">Title:</label>
+                        <input type="text" id="note-title" placeholder="Enter note title">
+                    </div>
+                    <div class="form-group">
+                        <label for="note-content">Content:</label>
+                        <textarea id="note-content" placeholder="Write your note here..."></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button onclick="cancelNoteForm()">Cancel</button>
+                        <button onclick="saveNote()">Save Note</button>
+                    </div>
+                </div>
+                
+                <!-- Note Viewer -->
+                <div id="note-viewer" style="display: none;">
+                    <h3 id="note-viewer-title"></h3>
+                    <div id="note-editor" contenteditable="true"></div>
+                    <div class="form-buttons">
+                        <button onclick="closeNoteViewer()">Back to Notes</button>
+                        <button onclick="updateNote()">Update Note</button>
+                    </div>
+                </div>
+                
+                <!-- Note List -->
+                <div id="note-list" class="note-list">
+                    <h3>Your Notes</h3>
+                    <div id="notes-container">
+                        <!-- Sample pre-loaded note -->
+                        <div class="note-item" onclick="openNote('Study Tips')">
+                            <div class="note-title">Study Tips</div>
+                            <div class="note-info">Created Mar 11, 2025 • Last edited Mar 12, 2025</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Quizzes Section -->
+            <section id="quizzes" class="card">
+                <h2>Quizzes</h2>
+                <button id="create-quiz-btn" onclick="showQuizForm()">Create Quiz</button>
+                
+                <!-- Quiz Form -->
+                <div id="quiz-form">
+                    <div class="form-group">
+                        <label for="quiz-title">Quiz Title:</label>
+                        <input type="text" id="quiz-title" placeholder="Enter quiz title">
+                    </div>
+                    <div id="quiz-items">
+                        <div class="form-group quiz-item">
+                            <label>Question 1:</label>
+                            <input type="text" class="quiz-question" placeholder="Question">
+                            <input type="text" class="quiz-correct" placeholder="Correct Answer">
+                            <input type="text" class="quiz-wrong1" placeholder="Wrong Answer 1">
+                            <input type="text" class="quiz-wrong2" placeholder="Wrong Answer 2">
+                            <input type="text" class="quiz-wrong3" placeholder="Wrong Answer 3">
+                        </div>
+                    </div>
+                    <button onclick="addQuizInput()">Add Another Question</button>
+                    <div class="form-buttons">
+                        <button onclick="cancelQuizForm()">Cancel</button>
+                        <button onclick="saveQuiz()">Save Quiz</button>
+                    </div>
+                </div>
+                
+                <!-- Quiz Taker -->
+                <div id="quiz-taker" style="display: none;">
+                    <h3 id="current-quiz-title"></h3>
+                    <div id="quiz-questions">
+                        <!-- Questions will be inserted here -->
+                    </div>
+                    <button onclick="submitQuiz()">Submit Answers</button>
+                    <div id="quiz-results" style="display: none;">
+                        <h3>Quiz Results</h3>
+                        <p id="quiz-score"></p>
+                        <button onclick="closeQuizTaker()">Back to Quizzes</button>
+                    </div>
+                </div>
+                
+                <!-- Quiz List -->
+                <div id="quiz-list" class="quiz-list">
+                    <h3>Your Quizzes</h3>
+                    <div id="quizzes-container">
+                        <!-- Sample pre-loaded quiz -->
+                        <div class="quiz-item" onclick="openQuiz('Science Quiz')">
+                            <div class="quiz-title">Science Quiz</div>
+                            <div class="quiz-info">5 questions • Created Mar 10, 2025</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 StudyLab</p>
+    </footer>
+
+    <script>
+        // Sample data for demonstration
+        const sampleFlashcards = {
+            "General Knowledge": {
+                name: "General Knowledge",
+                cards: [
+                    {question: "What is 2 + 2?", answer: "4"},
+                    {question: "What is the capital of France?", answer: "Paris"},
+                    {question: "What is the largest planet in our solar system?", answer: "Jupiter"},
+                    {question: "What is the smallest country in the world?", answer: "Vatican City"}
+                ],
+                date: "Mar 12, 2025"
+            }
+        };
+        
+        const sampleNotes = {
+            "Study Tips": {
+                title: "Study Tips",
+                content: "<h3>Effective Study Techniques</h3><p>1. <strong>Spaced Repetition</strong>: Review material at increasing intervals.</p><p>2. <strong>Active Recall</strong>: Test yourself instead of just re-reading.</p><p>3. <strong>Feynman Technique</strong>: Explain concepts in simple terms.</p><p>4. <strong>Pomodoro Method</strong>: Study in focused 25-minute intervals.</p><p>5. <strong>Mind Mapping</strong>: Create visual connections between concepts.</p>",
+                created: "Mar 11, 2025",
+                edited: "Mar 12, 2025"
+            }
+        };
+        
+        const sampleQuizzes = {
+            "Science Quiz": {
+                title: "Science Quiz",
+                questions: [
+                    {
+                        question: "What is the chemical symbol for gold?",
+                        correct: "Au",
+                        options: ["Au", "Ag", "Fe", "Cu"]
+                    },
+                    {
+                        question: "What is the largest organ in the human body?",
+                        correct: "Skin",
+                        options: ["Skin", "Liver", "Heart", "Brain"]
+                    },
+                    {
+                        question: "What is the force that pulls objects toward Earth?",
+                        correct: "Gravity",
+                        options: ["Gravity", "Magnetism", "Friction", "Tension"]
+                    },
+                    {
+                        question: "Which planet is known as the Red Planet?",
+                        correct: "Mars",
+                        options: ["Mars", "Venus", "Jupiter", "Mercury"]
+                    },
+                    {
+                        question: "What is the hardest natural substance on Earth?",
+                        correct: "Diamond",
+                        options: ["Diamond", "Titanium", "Platinum", "Steel"]
+                    }
+                ],
+                date: "Mar 10, 2025"
+            }
+        };
+
+        // Initialize local storage with sample data if empty
+        if (!localStorage.getItem("flashcards")) {
+            localStorage.setItem("flashcards", JSON.stringify(sampleFlashcards));
+        }
+        
+        if (!localStorage.getItem("notes")) {
+            localStorage.setItem("notes", JSON.stringify(sampleNotes));
+        }
+        
+        if (!localStorage.getItem("quizzes")) {
+            localStorage.setItem("quizzes", JSON.stringify(sampleQuizzes));
+        }
+
+        // Toggle theme function
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Check if dark mode was previously enabled
+        document.addEventListener('DOMContentLoaded', function() {
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            // Load all content
+            loadDecks();
+            loadNotes();
+            loadQuizzes();
+        });
+
+        // Current deck/card state
+        let currentDeck = "";
+        let currentCardIndex = 0;
+        let currentNoteId = "";
+        let currentQuiz = "";
+
+        // FLASHCARDS FUNCTIONALITY
+        function showFlashcardForm() {
+            document.getElementById('flashcard-form').style.display = 'block';
+            document.getElementById('deck-list').style.display = 'none';
+            document.getElementById('create-flashcard-btn').style.display = 'none';
+        }
+
+        function cancelFlashcardForm() {
+            document.getElementById('flashcard-form').style.display = 'none';
+            document.getElementById('deck-list').style.display = 'block';
+            document.getElementById('create-flashcard-btn').style.display = 'block';
+            document.getElementById('deck-name').value = '';
+            document.getElementById('flashcard-items').innerHTML = `
+                <div class="form-group card-item">
+                    <label>Flashcard 1:</label>
+                    <input type="text" class="card-question" placeholder="Question">
+                    <input type="text" class="card-answer" placeholder="Answer">
+                </div>
+            `;
+        }
+
+        function addFlashcardInput() {
+            const items = document.getElementById('flashcard-items');
+            const cardCount = items.children.length + 1;
+            const newItem = document.createElement('div');
+            newItem.className = 'form-group card-item';
+            newItem.innerHTML = `
+                <label>Flashcard ${cardCount}:</label>
+                <input type="text" class="card-question" placeholder="Question">
+                <input type="text" class="card-answer" placeholder="Answer">
+            `;
+            items.appendChild(newItem);
+        }
+
+        function saveFlashcardDeck() {
+            const deckName = document.getElementById('deck-name').value.trim();
+            if (!deckName) {
+                alert('Please enter a deck name');
+                return;
+            }
+
+            const cardItems = document.querySelectorAll('.card-item');
+            const cards = [];
+
+            for (let item of cardItems) {
+                const question = item.querySelector('.card-question').value.trim();
+                const answer = item.querySelector('.card-answer').value.trim();
+                
+                if (question && answer) {
+                    cards.push({ question, answer });
+                }
+            }
+
+            if (cards.length === 0) {
+                alert('Please add at least one card with question and answer');
+                return;
+            }
+
+            const newDeck = {
+                name: deckName,
+                cards: cards,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            };
+
+            const flashcards = JSON.parse(localStorage.getItem('flashcards') || '{}');
+            flashcards[deckName] = newDeck;
+            localStorage.setItem('flashcards', JSON.stringify(flashcards));
+
+            loadDecks();
+            cancelFlashcardForm();
+        }
+
+        function loadDecks() {
+            const flashcards = JSON.parse(localStorage.getItem('flashcards') || '{}');
+            const decksContainer = document.getElementById('decks');
+            decksContainer.innerHTML = '';
+
+            for (const [deckName, deck] of Object.entries(flashcards)) {
+                const deckItem = document.createElement('div');
+                deckItem.className = 'deck-item';
+                deckItem.onclick = function() { openDeck(deckName); };
+                deckItem.innerHTML = `
+                    <div class="deck-title">${deckName}</div>
+                    <div class="deck-info">${deck.cards.length} cards • Created ${deck.date}</div>
+                `;
+                decksContainer.appendChild(deckItem);
+            }
+        }
+
+        function openDeck(deckName) {
+            const flashcards = JSON.parse(localStorage.getItem('flashcards') || '{}');
+            if (!flashcards[deckName]) {
+                alert('Deck not found');
+                return;
+            }
+
+            currentDeck = deckName;
+            currentCardIndex = 0;
+            
+            document.getElementById('current-deck-name').textContent = deckName;
+            document.getElementById('study-area').style.display = 'block';
+            document.getElementById('deck-list').style.display = 'none';
+            document.getElementById('create-flashcard-btn').style.display = 'none';
+            
+            updateCardDisplay();
+        }
+
+        function updateCardDisplay() {
+            const flashcards = JSON.parse(localStorage.getItem('flashcards') || '{}');
+            const deck = flashcards[currentDeck];
+            const card = deck.cards[currentCardIndex];
+            
+            document.getElementById('question-text').textContent = card.question;
+            document.getElementById('answer-text').textContent = card.answer;
+            document.getElementById('card-counter').textContent = `Card ${currentCardIndex + 1} of ${deck.cards.length}`;
+            
+            // Reset flip state
+            document.querySelector('.flashcard').classList.remove('flipped');
+        }
+
+        function flipCard() {
+            document.querySelector('.flashcard').classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            const flashcards = JSON.parse(localStorage.getItem('flashcards') || '{}');
+            const deck = flashcards[currentDeck];
+            
+            if (currentCardIndex < deck.cards.length - 1) {
+                currentCardIndex++;
+                updateCardDisplay();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCardDisplay();
+            }
+        }
+
+        function closeStudyArea() {
+            document.getElementById('study-area').style.display = 'none';
+            document.getElementById('deck-list').style.display = 'block';
+            document.getElementById('create-flashcard-btn').style.display = 'block';
+        }
+
+        // NOTES FUNCTIONALITY
+        function showNoteForm() {
+            document.getElementById('note-form').style.display = 'block';
+            document.getElementById('note-list').style.display = 'none';
+            document.getElementById('create-note-btn').style.display = 'none';
+        }
+
+        function cancelNoteForm() {
+            document.getElementById('note-form').style.display = 'none';
+            document.getElementById('note-list').style.display = 'block';
+            document.getElementById('create-note-btn').style.display = 'block';
+            document.getElementById('note-title').value = '';
+            document.getElementById('note-content').value = '';
+        }
+
+        function saveNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const content = document.getElementById('note-content').value.trim();
+            
+            if (!title) {
+                alert('Please enter a title for your note');
+                return;
+            }
+            
+            if (!content) {
+                alert('Please enter some content for your note');
+                return;
+            }
+            
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            const newNote = {
+                title: title,
+                content: content,
+                created: today,
+                edited: today
+            };
+            
+            const notes = JSON.parse(localStorage.getItem('notes') || '{}');
+            notes[title] = newNote;
+            localStorage.setItem('notes', JSON.stringify(notes));
+            
+            loadNotes();
+            cancelNoteForm();
+        }
+
+        function loadNotes() {
+            const notes = JSON.parse(localStorage.getItem('notes') || '{}');
+            const notesContainer = document.getElementById('notes-container');
+            notesContainer.innerHTML = '';
+            
+            for (const [noteId, note] of Object.entries(notes)) {
+                const noteItem = document.createElement('div');
+                noteItem.className = 'note-item';
+                noteItem.onclick = function() { openNote(noteId); };
+                noteItem.innerHTML = `
+                    <div class="note-title">${note.title}</div>
+                    <div class="note-info">Created ${note.created} • Last edited ${note.edited}</div>
+                `;
+                notesContainer.appendChild(noteItem);
+            }
+        }
+
+        function openNote(noteId) {
+            const notes = JSON.parse(localStorage.getItem('notes') || '{}');
+            if (!notes[noteId]) {
+                alert('Note not found');
+                return;
+            }
+            
+            currentNoteId = noteId;
+            const note = notes[noteId];
+            
+            document.getElementById('note-viewer-title').textContent = note.title;
+            document.getElementById('note-editor').innerHTML = note.content;
+            
+            document.getElementById('note-viewer').style.display = 'block';
+            document.getElementById('note-list').style.display = 'none';
+            document.getElementById('create-note-btn').style.display = 'none';
+        }
+
+        function closeNoteViewer() {
+            document.getElementById('note-viewer').style.display = 'none';
+            document.getElementById('note-list').style.display = 'block';
+            document.getElementById('create-note-btn').style.display = 'block';
+        }
+
+        function updateNote() {
+            const notes = JSON.parse(localStorage.getItem('notes') || '{}');
+            if (!notes[currentNoteId]) {
+                alert('Error updating note');
+                return;
+            }
+            
+            const updatedContent = document.getElementById('note-editor').innerHTML;
+            notes[currentNoteId].content = updatedContent;
+            notes[currentNoteId].edited = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            
+            localStorage.setItem('notes', JSON.stringify(notes));
+            
+            alert('Note updated successfully');
+            loadNotes();
+            closeNoteViewer();
+        }
+
+        // QUIZZES FUNCTIONALITY
+        function showQuizForm() {
+            document.getElementById('quiz-form').style.display = 'block';
+            document.getElementById('quiz-list').style.display = 'none';
+            document.getElementById('create-quiz-btn').style.display = 'none';
+        }
+
+        function cancelQuizForm() {
+            document.getElementById('quiz-form').style.display = 'none';
+            document.getElementById('quiz-list').style.display = 'block';
+            document.getElementById('create-quiz-btn').style.display = 'block';
+            document.getElementById('quiz-title').value = '';
+            document.getElementById('quiz-items').innerHTML = `
+                <div class="form-group quiz-item">
+                    <label>Question 1:</label>
+                    <input type="text" class="quiz-question" placeholder="Question">
+                    <input type="text" class="quiz-correct" placeholder="Correct Answer">
+                    <input type="text" class="quiz-wrong1" placeholder="Wrong Answer 1">
+                    <input type="text" class="quiz-wrong2" placeholder="Wrong Answer 2">
+                    <input type="text" class="quiz-wrong3" placeholder="Wrong Answer 3">
+                </div>
+            `;
+        }
+
+        function addQuizInput() {
+            const items = document.getElementById('quiz-items');
+            const questionCount = items.children.length + 1;
+            const newItem = document.createElement('div');
+            newItem.className = 'form-group quiz-item';
+            newItem.innerHTML = `
+                <label>Question ${questionCount}:</label>
+                <input type="text" class="quiz-question" placeholder="Question">
+                <input type="text" class="quiz-correct" placeholder="Correct Answer">
+                <input type="text" class="quiz-wrong1" placeholder="Wrong Answer 1">
+                <input type="text" class="quiz-wrong2" placeholder="Wrong Answer 2">
+                <input type="text" class="quiz-wrong3" placeholder="Wrong Answer 3">
+            `;
+            items.appendChild(newItem);
+        }
+
+        function saveQuiz() {
+            const quizTitle = document.getElementById('quiz-title').value.trim();
+            if (!quizTitle) {
+                alert('Please enter a quiz title');
+                return;
+            }
+            
+            const quizItems = document.querySelectorAll('.quiz-item');
+            const questions = [];
+            
+            for (let item of quizItems) {
+                const question = item.querySelector('.quiz-question').value.trim();
+                const correct = item.querySelector('.quiz-correct').value.trim();
+                const wrong1 = item.querySelector('.quiz-wrong1').value.trim();
+                const wrong2 = item.querySelector('.quiz-wrong2').value.trim();
+                const wrong3 = item.querySelector('.quiz-wrong3').value.trim();
+                
+                if (question && correct && wrong1 && wrong2 && wrong3) {
+                    questions.push({
+                        question: question,
+                        correct: correct,
+                        options: shuffle([correct, wrong1, wrong2, wrong3])
+                    });
+                }
+            }
+            
+            if (questions.length === 0) {
+                alert('Please add at least one complete question');
+                return;
+            }
+            
+            const newQuiz = {
+                title: quizTitle,
+                questions: questions,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            };
+            
+            const quizzes = JSON.parse(localStorage.getItem('quizzes') || '{}');
+            quizzes[quizTitle] = newQuiz;
+            localStorage.setItem('quizzes', JSON.stringify(quizzes));
+            
+            loadQuizzes();
+            cancelQuizForm();
+        }
+
+        function loadQuizzes() {
+            const quizzes = JSON
