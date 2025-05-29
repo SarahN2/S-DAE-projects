@@ -1,13 +1,5 @@
 // firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
-
+// must be loaded *after* the three compat scripts
 const firebaseConfig = {
   apiKey: "AIzaSyB9WsU3zPb09kIwHScxJglZUaw3IgSN6TU",
   authDomain: "study-976a5.firebaseapp.com",
@@ -18,13 +10,9 @@ const firebaseConfig = {
   measurementId: "G-B4HNS5TFWY"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+// Initialize
+firebase.initializeApp(firebaseConfig);
 
-export {
-  auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-};
+// Export globals
+window.auth = firebase.auth();
+window.db   = firebase.firestore();

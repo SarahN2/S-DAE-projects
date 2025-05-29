@@ -1,20 +1,18 @@
-import {
-    auth,
-    signInWithEmailAndPassword
-  } from './firebase.js';
-  
-  const form = document.getElementById("login-form");
-  
-  form.addEventListener("submit", async (e) => {
+// login.js
+const auth = window.auth;
+
+// If already logged in, go straight to home.html
+auth.onAuthStateChanged(user => {
+  if (user) location.href = 'home.html';
+});
+
+// Handle login form submit
+document.getElementById('login-form')
+  .addEventListener('submit', e => {
     e.preventDefault();
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
-  
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "home.html";
-    } catch (error) {
-      alert("Login failed: " + error.message);
-    }
+    const email = e.target['login-email'].value;
+    const pwd   = e.target['login-password'].value;
+    auth.signInWithEmailAndPassword(email, pwd)
+      .then(() => { location.href = 'home.html'; })
+      .catch(err => { alert('Login failed: ' + err.message); });
   });
-  

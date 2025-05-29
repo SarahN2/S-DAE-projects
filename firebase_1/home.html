@@ -2,18 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudyLab Home</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>StudyLab</title>
   <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/11.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="form-box">
-      <h1>Welcome to StudyLab</h1>
-      <p id="user-email"></p>
-      <button id="logout-btn">Logout</button>
-    </div>
+  <nav class="navbar">
+    <div class="logo">StudyLab</div>
+    <button id="logout-btn">Logout</button>
+  </nav>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-target="flashcards">Flashcards</button>
+    <button class="tab-btn"        data-target="notes">Notes</button>
+    <button class="tab-btn"        data-target="quiz">Quiz</button>
   </div>
-  <script type="module" src="home.js"></script>
+
+  <section id="flashcards" class="tab-content active">
+    <div class="flashcard-form">
+      <input id="front-text" placeholder="Front…" />
+      <input id="back-text"  placeholder="Back…" />
+      <button id="add-flashcard">Add</button>
+    </div>
+    <div id="flashcard-list"></div>
+  </section>
+
+  <section id="notes" class="tab-content">
+    <div class="notes-form">
+      <textarea id="notes-area" placeholder="Your notes…"></textarea>
+      <button id="save-notes">Save</button>
+    </div>
+  </section>
+
+  <section id="quiz" class="tab-content">
+    <button id="start-quiz">Start Quiz</button>
+    <div id="quiz-container" class="quiz-container"></div>
+  </section>
+
+  <script src="home.js"></script>
 </body>
 </html>
